@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'dart:math';
 
 class Home extends StatefulWidget {
   const Home();
@@ -25,6 +26,11 @@ class _HomeState extends State<Home> {
   String _elapsedTime = "00:00:00.00";
   Stopwatch _stopwatch = Stopwatch();
   late Timer _timer;
+
+  //update 08/06/2023
+  int randomNumber = 0;
+  bool _autoModeStatus = false;
+  bool _randomProgress = false;
 
   @override
   void initState() {
@@ -94,6 +100,50 @@ class _HomeState extends State<Home> {
   void dispose() {
     _timer.cancel();
     super.dispose();
+  }
+
+  //update 08/06/2023
+  _autoMode() async {
+    if (_randomProgress) {
+      _randomProgress = false;
+      _setAutoModeStatus(false);
+      return;
+    }
+
+    _randomProgress = true;
+    _setAutoModeStatus(true);
+    await _randomOperation();
+    Random random = new Random();
+    randomNumber = random.nextInt(100);
+
+    if (_randomProgress) {
+      _randomProgress = false;
+      if (randomNumber % 2 == 0) {
+      } else {}
+      _setAutoModeStatus(false);
+      return _autoMode();
+    } else {
+      _setAutoModeStatus(false);
+    }
+  }
+
+  Future _randomOperation() {
+    return Future.delayed(const Duration(seconds: 3));
+  }
+
+  void _changeRandomProgress() {
+    if (_randomProgress) {
+      _randomProgress = false;
+      _autoMode();
+    } else {
+      _randomProgress = true;
+    }
+  }
+
+  void _setAutoModeStatus(bool status) {
+    setState(() {
+      _autoModeStatus = status;
+    });
   }
 
   Widget build(BuildContext context) {
@@ -205,6 +255,39 @@ class _HomeState extends State<Home> {
               ),
               SizedBox(
                 height: 16,
+              ),
+              Text(
+                'Auto Mode: $randomNumber',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(
+                width: 300,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.white),
+                    padding: MaterialStatePropertyAll(
+                      EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    shape: MaterialStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                  onPressed: () => _autoMode(),
+                  child: Text(
+                    _autoModeStatus ? 'Stop Auto Mode' : 'Start Auto Mode',
+                    style: TextStyle(
+                      color: orangeColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ),
               Text(
                 'Stopwatch Settings',
