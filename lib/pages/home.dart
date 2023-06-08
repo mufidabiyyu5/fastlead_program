@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async';
 
 class Home extends StatefulWidget {
   const Home();
@@ -14,14 +15,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _webviewUrl = "http://192.168.100.141/";
+  final _webviewUrl = "http://192.168.100.13:8765/";
   final _key = UniqueKey();
   String? _localIP = 'Unknown';
+
+  //update 06/06/23
+  String _startStop = "Stop";
+  bool _stopwatchStatus = true;
+  String _elapsedTime = "00:00:00.00";
+  Stopwatch _stopwatch = Stopwatch();
+  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
     _getLocalIP();
+    _startStopwatch();
   }
 
   Future<void> _getLocalIP() async {
@@ -32,17 +41,59 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _toggleOnLED() async {
-    String url1 = 'http://192.168.100.110/on14';
-    String url2 = 'http://192.168.100.115/on20';
-    await http.get(Uri.parse(url1));
-    await http.get(Uri.parse(url2));
+    String url = '192.168.100.120';
+
+    await http.get(Uri.http(url, '/ON'));
   }
 
   Future<void> _toggleOffLED() async {
-    String url1 = 'http://192.168.100.110/off14';
-    String url2 = 'http://192.168.100.115/off20';
-    await http.get(Uri.parse(url1));
-    await http.get(Uri.parse(url2));
+    String url = '192.168.100.120';
+
+    await http.get(Uri.http(url, '/OFF'));
+  }
+
+  //update 06/06/23
+  void _changeStopwatchStatus(bool status) {
+    if (status) {
+      _stopStopwatch();
+      _startStop = 'Start';
+    } else {
+      _startStopwatch();
+      _startStop = 'Stop';
+    }
+  }
+
+  void _startStopwatch() {
+    _stopwatch.start();
+    _stopwatchStatus = true;
+    _timer = Timer.periodic(Duration(milliseconds: 1), (timer) {
+      setState(() {
+        _elapsedTime = _stopwatch.elapsed.toString().substring(0, 8);
+      });
+    });
+  }
+
+  void _stopStopwatch() {
+    _stopwatch.stop();
+    _stopwatchStatus = false;
+    _timer.cancel();
+  }
+
+  void _resetStopwatch() {
+    _stopwatch.stop();
+    _stopwatch.reset();
+    _stopwatchStatus = false;
+    _startStop = 'Start';
+    _timer.cancel();
+    setState(() {
+      _elapsedTime = "00:00:00.00";
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -52,6 +103,7 @@ class _HomeState extends State<Home> {
         child: Padding(
           padding: EdgeInsets.all(24),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset(
                 'assets/logo.png',
@@ -69,6 +121,17 @@ class _HomeState extends State<Home> {
                   key: _key,
                   javascriptMode: JavascriptMode.unrestricted,
                   initialUrl: _webviewUrl,
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                '$_elapsedTime',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
               SizedBox(
@@ -122,6 +185,86 @@ class _HomeState extends State<Home> {
                       onPressed: _toggleOnLED,
                       child: Text(
                         'On',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                "Wifi IP: $_localIP",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                'Stopwatch Settings',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.white),
+                        padding: MaterialStatePropertyAll(
+                          EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        shape: MaterialStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      onPressed: _resetStopwatch,
+                      child: Text(
+                        'Reset',
+                        style: TextStyle(
+                          color: orangeColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  SizedBox(
+                    width: 150,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(orangeColor),
+                        padding: MaterialStatePropertyAll(
+                          EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        shape: MaterialStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      onPressed: () => _changeStopwatchStatus(_stopwatchStatus),
+                      child: Text(
+                        '$_startStop',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,
