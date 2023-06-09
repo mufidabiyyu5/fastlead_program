@@ -58,6 +58,18 @@ class _HomeState extends State<Home> {
     await http.get(Uri.http(url, '/OFF'));
   }
 
+  Future<void> _toggleOnLED1() async {
+    String url = '192.168.100.121';
+
+    await http.get(Uri.http(url, '/ON'));
+  }
+
+  Future<void> _toggleOffLED1() async {
+    String url = '192.168.100.121';
+
+    await http.get(Uri.http(url, '/OFF'));
+  }
+
   //update 06/06/23
   void _changeStopwatchStatus(bool status) {
     if (status) {
@@ -114,12 +126,17 @@ class _HomeState extends State<Home> {
     _setAutoModeStatus(true);
     await _randomOperation();
     Random random = new Random();
-    randomNumber = random.nextInt(100);
+    randomNumber = random.nextInt(10);
 
     if (_randomProgress) {
       _randomProgress = false;
       if (randomNumber % 2 == 0) {
-      } else {}
+        // _toggleOffLED1();
+        _toggleOnLED();
+      } else {
+        // _toggleOffLED();
+        _toggleOnLED1();
+      }
       _setAutoModeStatus(false);
       return _autoMode();
     } else {
@@ -131,14 +148,14 @@ class _HomeState extends State<Home> {
     return Future.delayed(const Duration(seconds: 3));
   }
 
-  void _changeRandomProgress() {
-    if (_randomProgress) {
-      _randomProgress = false;
-      _autoMode();
-    } else {
-      _randomProgress = true;
-    }
-  }
+  // void _changeRandomProgress() {
+  //   if (_randomProgress) {
+  //     _randomProgress = false;
+  //     _autoMode();
+  //   } else {
+  //     _randomProgress = true;
+  //   }
+  // }
 
   void _setAutoModeStatus(bool status) {
     setState(() {
@@ -187,30 +204,40 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 16,
               ),
+              Text(
+                "Sensor 1",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 150,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.white),
-                        padding: MaterialStatePropertyAll(
-                          EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        shape: MaterialStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                  Expanded(
+                    child: SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.white),
+                          padding: MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(vertical: 12),
+                          ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                         ),
-                      ),
-                      onPressed: _toggleOffLED,
-                      child: Text(
-                        'Off',
-                        style: TextStyle(
-                          color: orangeColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                        onPressed: _toggleOffLED,
+                        child: Text(
+                          'Off',
+                          style: TextStyle(
+                            color: orangeColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
@@ -218,27 +245,102 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     width: 8,
                   ),
-                  SizedBox(
-                    width: 150,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(orangeColor),
-                        padding: MaterialStatePropertyAll(
-                          EdgeInsets.symmetric(vertical: 12),
+                  Expanded(
+                    child: SizedBox(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(orangeColor),
+                          padding: MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(vertical: 12),
+                          ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
                         ),
-                        shape: MaterialStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                        onPressed: _toggleOnLED,
+                        child: Text(
+                          'On',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                      onPressed: _toggleOnLED,
-                      child: Text(
-                        'On',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                "Sensor 2",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.white),
+                          padding: MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(vertical: 12),
+                          ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        onPressed: _toggleOffLED1,
+                        child: Text(
+                          'Off',
+                          style: TextStyle(
+                            color: orangeColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(orangeColor),
+                          padding: MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(vertical: 12),
+                          ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        onPressed: _toggleOnLED1,
+                        child: Text(
+                          'On',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
@@ -263,9 +365,10 @@ class _HomeState extends State<Home> {
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
+                textAlign: TextAlign.start,
               ),
               SizedBox(
-                width: 300,
+                width: double.infinity,
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.white),
