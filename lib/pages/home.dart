@@ -47,27 +47,43 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _toggleOnLED() async {
-    String url = '192.168.100.120';
+    String url = 'http://192.168.100.120/ON';
 
-    await http.get(Uri.http(url, '/ON'));
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
   }
 
   Future<void> _toggleOffLED() async {
-    String url = '192.168.100.120';
+    String url = 'http://192.168.100.120/OFF';
 
-    await http.get(Uri.http(url, '/OFF'));
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
   }
 
   Future<void> _toggleOnLED1() async {
-    String url = '192.168.100.121';
+    String url = 'http://192.168.100.121/ON';
 
-    await http.get(Uri.http(url, '/ON'));
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
   }
 
   Future<void> _toggleOffLED1() async {
-    String url = '192.168.100.121';
+    String url = 'http://192.168.100.121/OFF';
 
-    await http.get(Uri.http(url, '/OFF'));
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
   }
 
   //update 06/06/23
