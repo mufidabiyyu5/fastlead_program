@@ -169,299 +169,314 @@ class _HomeState extends State<Home> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.asset(
-                'assets/logo.png',
-                width: 64,
-                height: 64,
-                alignment: Alignment.center,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 220,
-                child: WebView(
-                  key: _key,
-                  javascriptMode: JavascriptMode.unrestricted,
-                  initialUrl: _webviewUrl,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'assets/logo.png',
+                    width: 64,
+                    height: 64,
+                    alignment: Alignment.center,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                '$_elapsedTime',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+                SizedBox(
+                  height: 16,
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Sensor 1",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      width: 150,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.white),
-                          padding: MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                        onPressed: _toggleOffLED,
-                        child: Text(
-                          'Off',
-                          style: TextStyle(
-                            color: orangeColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 220,
+                  child: WebView(
+                    key: _key,
+                    javascriptMode: JavascriptMode.unrestricted,
+                    initialUrl: _webviewUrl,
                   ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(orangeColor),
-                          padding: MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                        onPressed: _toggleOnLED,
-                        child: Text(
-                          'On',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                "Sensor 2",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      width: 150,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.white),
-                          padding: MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                        onPressed: _toggleOffLED1,
-                        child: Text(
-                          'Off',
-                          style: TextStyle(
-                            color: orangeColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(orangeColor),
-                          padding: MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                        onPressed: _toggleOnLED1,
-                        child: Text(
-                          'On',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                "Wifi IP: $_localIP",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                'Auto Mode: $randomNumber',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                SizedBox(
+                  height: 16,
                 ),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.white),
-                    padding: MaterialStatePropertyAll(
-                      EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-                  onPressed: () => _autoMode(),
+                Align(
+                  alignment: Alignment.center,
                   child: Text(
-                    _autoModeStatus ? 'Stop Auto Mode' : 'Start Auto Mode',
+                    '$_elapsedTime',
                     style: TextStyle(
-                      color: orangeColor,
+                      color: Colors.white,
                       fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
-              ),
-              Text(
-                'Stopwatch Settings',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                SizedBox(
+                  height: 16,
                 ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 150,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.white),
-                        padding: MaterialStatePropertyAll(
-                          EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        shape: MaterialStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                Text(
+                  "Sensor 1",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: 150,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white),
+                            padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          onPressed: _toggleOffLED,
+                          child: Text(
+                            'Off',
+                            style: TextStyle(
+                              color: orangeColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
-                      onPressed: _resetStopwatch,
-                      child: Text(
-                        'Reset',
-                        style: TextStyle(
-                          color: orangeColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  SizedBox(
-                    width: 150,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(orangeColor),
-                        padding: MaterialStatePropertyAll(
-                          EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        shape: MaterialStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(orangeColor),
+                            padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          onPressed: _toggleOnLED,
+                          child: Text(
+                            'On',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
-                      onPressed: () => _changeStopwatchStatus(_stopwatchStatus),
-                      child: Text(
-                        '$_startStop',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "Sensor 2",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: 150,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white),
+                            padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          onPressed: _toggleOffLED1,
+                          child: Text(
+                            'Off',
+                            style: TextStyle(
+                              color: orangeColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
                     ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(orangeColor),
+                            padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          onPressed: _toggleOnLED1,
+                          child: Text(
+                            'On',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  "Wifi IP: $_localIP",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
-              ),
-            ],
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  'Auto Mode: $randomNumber',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      padding: MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    onPressed: () => _autoMode(),
+                    child: Text(
+                      _autoModeStatus ? 'Stop Auto Mode' : 'Start Auto Mode',
+                      style: TextStyle(
+                        color: orangeColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  'Stopwatch Settings',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.white),
+                          padding: MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(vertical: 12),
+                          ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        onPressed: _resetStopwatch,
+                        child: Text(
+                          'Reset',
+                          style: TextStyle(
+                            color: orangeColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(orangeColor),
+                          padding: MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(vertical: 12),
+                          ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        onPressed: () =>
+                            _changeStopwatchStatus(_stopwatchStatus),
+                        child: Text(
+                          '$_startStop',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
