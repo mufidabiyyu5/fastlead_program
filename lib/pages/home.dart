@@ -49,90 +49,95 @@ class _HomeState extends State<Home> {
   // untuk sensor 1
   Future<void> _toggleOnLED1() async {
     String url = 'http://192.168.100.120/ON';
+    String url1 = 'http://192.168.100.122/onA';
 
     try {
-      await http.get(Uri.parse(url));
+      await Future.wait([http.get(Uri.parse(url)), http.get(Uri.parse(url1))]);
     } catch (e) {
       print('Failed to toggle LED: $e');
     }
   }
 
   //untuk kotak utama
-  Future<void> _toggleOnLED3() async {
-    String url = 'http://192.168.100.122/onA';
+  // Future<void> _toggleOnLED3() async {
+  //   String url = 'http://192.168.100.122/onA';
 
-    try {
-      await http.get(Uri.parse(url));
-    } catch (e) {
-      print('Failed to toggle LED: $e');
-    }
-  }
+  //   try {
+  //     await http.get(Uri.parse(url));
+  //   } catch (e) {
+  //     print('Failed to toggle LED: $e');
+  //   }
+  // }
 
   // untuk sensor 1
   Future<void> _toggleOffLED1() async {
     String url = 'http://192.168.100.120/OFF';
+    String url1 = 'http://192.168.100.120/offA';
 
     try {
-      await http.get(Uri.parse(url));
+      await Future.wait([http.get(Uri.parse(url)), http.get(Uri.parse(url1))]);
     } catch (e) {
       print('Failed to toggle LED: $e');
     }
   }
 
   // kotak utama
-  Future<void> _toggleOffLED3() async {
-    String url = 'http://192.168.100.122/offA';
+  // Future<void> _toggleOffLED3() async {
+  //   String url = 'http://192.168.100.122/offA';
 
-    try {
-      await http.get(Uri.parse(url));
-    } catch (e) {
-      print('Failed to toggle LED: $e');
-    }
-  }
+  //   try {
+  //     await http.get(Uri.parse(url));
+  //   } catch (e) {
+  //     print('Failed to toggle LED: $e');
+  //   }
+  // }
 
   // untuk sensor 2
   Future<void> _toggleOnLED2() async {
     String url = 'http://192.168.100.121/ON';
+    String url1 = 'http://192.168.100.122/onB';
 
     try {
-      await http.get(Uri.parse(url));
+      await Future.wait([http.get(Uri.parse(url)), http.get(Uri.parse(url1))]);
     } catch (e) {
       print('Failed to toggle LED: $e');
     }
   }
 
   // untuk kotak utama
-  Future<void> _toggleOnLED4() async {
-    String url = 'http://192.168.100.122/onB';
+  // Future<void> _toggleOnLED4() async {
+  //   String url = 'http://192.168.100.122/onB';
 
-    try {
-      await http.get(Uri.parse(url));
-    } catch (e) {
-      print('Failed to toggle LED: $e');
-    }
-  }
+  //   try {
+  //     await http.get(Uri.parse(url));
+  //   } catch (e) {
+  //     print('Failed to toggle LED: $e');
+  //   }
+  // }
 
   // untuk sensor 2
   Future<void> _toggleOffLED2() async {
     String url = 'http://192.168.100.121/OFF';
+    String url1 = 'http://192.168.100.121/offB';
 
     try {
-      await http.get(Uri.parse(url));
+      await Future.wait([http.get(Uri.parse(url)), http.get(Uri.parse(url1))]);
+      ;
     } catch (e) {
       print('Failed to toggle LED: $e');
     }
   }
 
   // untuk kotak utama
-  Future<void> _toggleOffLED4() async {
-    String url = 'http://192.168.100.122/offB';
+  // Future<void> _toggleOffLED4() async {
+  //   String url = 'http://192.168.100.122/offB';
 
-    try {
-      await http.get(Uri.parse(url));
-    } catch (e) {
-      print('Failed to toggle LED: $e');
-    }
-  }
+  //   try {
+  //     await http.get(Uri.parse(url));
+  //   } catch (e) {
+  //     print('Failed to toggle LED: $e');
+  //   }
+  // }
 
   //update 06/06/23
   void _changeStopwatchStatus(bool status) {
@@ -197,11 +202,11 @@ class _HomeState extends State<Home> {
       if (randomNumber % 2 == 0) {
         // _toggleOffLED1();
         _toggleOnLED1();
-        _toggleOffLED3();
+        // _toggleOffLED3();
       } else {
         // _toggleOffLED();
         _toggleOnLED2();
-        _toggleOnLED4();
+        // _toggleOnLED4();
       }
       _setAutoModeStatus(false);
       return _autoMode();
@@ -305,7 +310,7 @@ class _HomeState extends State<Home> {
                           ),
                           onPressed: () {
                             _toggleOffLED1();
-                            _toggleOffLED3();
+                            // _toggleOffLED3();
                           },
                           child: Text(
                             'Off',
@@ -338,7 +343,7 @@ class _HomeState extends State<Home> {
                           ),
                           onPressed: () {
                             _toggleOnLED1();
-                            _toggleOnLED3();
+                            // _toggleOnLED3();
                           },
                           child: Text(
                             'On',
@@ -383,7 +388,7 @@ class _HomeState extends State<Home> {
                           ),
                           onPressed: () {
                             _toggleOffLED2();
-                            _toggleOffLED4();
+                            // _toggleOffLED4();
                           },
                           child: Text(
                             'Off',
@@ -416,7 +421,7 @@ class _HomeState extends State<Home> {
                           ),
                           onPressed: () {
                             _toggleOnLED2();
-                            _toggleOffLED4();
+                            // _toggleOnLED4();
                           },
                           child: Text(
                             'On',
