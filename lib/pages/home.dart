@@ -46,7 +46,8 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<void> _toggleOnLED() async {
+  // untuk sensor 1
+  Future<void> _toggleOnLED1() async {
     String url = 'http://192.168.100.120/ON';
 
     try {
@@ -56,7 +57,19 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _toggleOffLED() async {
+  //untuk kotak utama
+  Future<void> _toggleOnLED3() async {
+    String url = 'http://192.168.100.122/onA';
+
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
+  }
+
+  // untuk sensor 1
+  Future<void> _toggleOffLED1() async {
     String url = 'http://192.168.100.120/OFF';
 
     try {
@@ -66,7 +79,19 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _toggleOnLED1() async {
+  // kotak utama
+  Future<void> _toggleOffLED3() async {
+    String url = 'http://192.168.100.122/offA';
+
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
+  }
+
+  // untuk sensor 2
+  Future<void> _toggleOnLED2() async {
     String url = 'http://192.168.100.121/ON';
 
     try {
@@ -76,8 +101,31 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _toggleOffLED1() async {
+  // untuk kotak utama
+  Future<void> _toggleOnLED4() async {
+    String url = 'http://192.168.100.122/onB';
+
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
+  }
+
+  // untuk sensor 2
+  Future<void> _toggleOffLED2() async {
     String url = 'http://192.168.100.121/OFF';
+
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
+  }
+
+  // untuk kotak utama
+  Future<void> _toggleOffLED4() async {
+    String url = 'http://192.168.100.122/offB';
 
     try {
       await http.get(Uri.parse(url));
@@ -148,10 +196,12 @@ class _HomeState extends State<Home> {
       _randomProgress = false;
       if (randomNumber % 2 == 0) {
         // _toggleOffLED1();
-        _toggleOnLED();
+        _toggleOnLED1();
+        _toggleOffLED3();
       } else {
         // _toggleOffLED();
-        _toggleOnLED1();
+        _toggleOnLED2();
+        _toggleOnLED4();
       }
       _setAutoModeStatus(false);
       return _autoMode();
@@ -240,7 +290,6 @@ class _HomeState extends State<Home> {
                   children: [
                     Expanded(
                       child: SizedBox(
-                        width: 150,
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
@@ -254,7 +303,10 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                          onPressed: _toggleOffLED,
+                          onPressed: () {
+                            _toggleOffLED1();
+                            _toggleOffLED3();
+                          },
                           child: Text(
                             'Off',
                             style: TextStyle(
@@ -284,7 +336,10 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                          onPressed: _toggleOnLED,
+                          onPressed: () {
+                            _toggleOnLED1();
+                            _toggleOnLED3();
+                          },
                           child: Text(
                             'On',
                             style: TextStyle(
@@ -313,7 +368,6 @@ class _HomeState extends State<Home> {
                   children: [
                     Expanded(
                       child: SizedBox(
-                        width: 150,
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
@@ -327,7 +381,10 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                          onPressed: _toggleOffLED1,
+                          onPressed: () {
+                            _toggleOffLED2();
+                            _toggleOffLED4();
+                          },
                           child: Text(
                             'Off',
                             style: TextStyle(
@@ -357,7 +414,10 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                          onPressed: _toggleOnLED1,
+                          onPressed: () {
+                            _toggleOnLED2();
+                            _toggleOffLED4();
+                          },
                           child: Text(
                             'On',
                             style: TextStyle(
