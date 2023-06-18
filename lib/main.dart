@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fastlead/pages/splash.dart';
+import 'package:Fastlead/pages/splash.dart';
 
 void main() {
   runApp(const MyApp());

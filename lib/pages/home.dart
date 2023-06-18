@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fastlead/theme.dart';
+import 'package:Fastlead/theme.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,7 +16,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _webviewUrl = "http://192.168.100.13:8765/";
+  TextEditingController _textEditingController = TextEditingController();
+  String _webviewUrl = "http://192.168.100.13:8765/";
+  late WebViewController controller;
   final _key = UniqueKey();
   String? _localIP = 'Unknown';
 
@@ -31,6 +33,9 @@ class _HomeState extends State<Home> {
   int randomNumber = 0;
   bool _autoModeStatus = false;
   bool _randomProgress = false;
+
+  // update 15/06/2023
+  int _timeInterval = 2;
 
   @override
   void initState() {
@@ -216,7 +221,7 @@ class _HomeState extends State<Home> {
   }
 
   Future _randomOperation() {
-    return Future.delayed(const Duration(seconds: 3));
+    return Future.delayed(Duration(seconds: _timeInterval));
   }
 
   // void _changeRandomProgress() {
@@ -234,6 +239,39 @@ class _HomeState extends State<Home> {
     });
   }
 
+  // update input ip camera
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Change IP Camera'),
+            content: TextField(
+              onChanged: (value) {
+                setState(() {
+                  _webviewUrl = value;
+                });
+              },
+              controller: _textEditingController,
+              decoration: InputDecoration(hintText: "$_webviewUrl"),
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                color: primaryColor,
+                textColor: Colors.white,
+                child: Text('OK'),
+                onPressed: () {
+                  setState(() {
+                    controller.loadUrl(_webviewUrl);
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryColor,
@@ -245,18 +283,6 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    'assets/logo.png',
-                    width: 64,
-                    height: 64,
-                    alignment: Alignment.center,
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 220,
@@ -264,7 +290,43 @@ class _HomeState extends State<Home> {
                     key: _key,
                     javascriptMode: JavascriptMode.unrestricted,
                     initialUrl: _webviewUrl,
+                    onWebViewCreated: (WebViewController webViewController) {
+                      controller = webViewController;
+                    },
                   ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(orangeColor),
+                            padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            // shape: MaterialStatePropertyAll(
+                            //   RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(8),
+                            //   ),
+                            // ),
+                          ),
+                          onPressed: () {
+                            _displayTextInputDialog(context);
+                          },
+                          child: Text(
+                            'Change IP Camera',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16,
@@ -480,6 +542,84 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  'Random Interval (Seconds): $_timeInterval',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile(
+                        title: Text(
+                          '2s',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                        value: 2,
+                        fillColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.white,
+                        ),
+                        groupValue: _timeInterval,
+                        onChanged: (int? value) {
+                          setState(() {
+                            _timeInterval = value!;
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: RadioListTile(
+                        title: Text(
+                          '3s',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                        value: 3,
+                        fillColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.white,
+                        ),
+                        groupValue: _timeInterval,
+                        onChanged: (int? value) {
+                          setState(() {
+                            _timeInterval = value!;
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: RadioListTile(
+                        title: Text(
+                          '5s',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                        value: 5,
+                        fillColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.white,
+                        ),
+                        groupValue: _timeInterval,
+                        onChanged: (int? value) {
+                          setState(() {
+                            _timeInterval = value!;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16,

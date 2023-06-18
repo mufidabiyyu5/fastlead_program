@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:fastlead/theme.dart';
-import 'package:fastlead/pages/home.dart';
+import 'package:Fastlead/theme.dart';
+import 'package:Fastlead/pages/home.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
