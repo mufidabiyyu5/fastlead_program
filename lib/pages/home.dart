@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController _textEditingController = TextEditingController();
-  String _webviewUrl = "http://192.168.100.13:8765/";
+  String _webviewUrl = "http://192.168.100.104:8765/";
   late WebViewController controller;
   final _key = UniqueKey();
   String? _localIP = 'Unknown';
@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
   bool _autoModeStatus = false;
   bool _randomProgress = false;
 
-  // update 15/06/2023
+  //update 16/06/2023
   int _timeInterval = 2;
 
   @override
@@ -53,96 +53,91 @@ class _HomeState extends State<Home> {
 
   // untuk sensor 1
   Future<void> _toggleOnLED1() async {
-    String url = 'http://192.168.100.120/ON';
-    String url1 = 'http://192.168.100.122/onA';
+    String url = 'http://192.168.100.120/on12';
 
     try {
-      await Future.wait([http.get(Uri.parse(url)), http.get(Uri.parse(url1))]);
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
+  }
+
+  // untuk sensor 1
+  Future<void> _toggleOffLED1() async {
+    String url = 'http://192.168.100.120/off12';
+
+    try {
+      await http.get(Uri.parse(url));
     } catch (e) {
       print('Failed to toggle LED: $e');
     }
   }
 
   //untuk kotak utama
-  // Future<void> _toggleOnLED3() async {
-  //   String url = 'http://192.168.100.122/onA';
-
-  //   try {
-  //     await http.get(Uri.parse(url));
-  //   } catch (e) {
-  //     print('Failed to toggle LED: $e');
-  //   }
-  // }
-
-  // untuk sensor 1
-  Future<void> _toggleOffLED1() async {
-    String url = 'http://192.168.100.120/OFF';
-    String url1 = 'http://192.168.100.120/offA';
+  Future<void> _toggleOnLED3() async {
+    String url = 'http://192.168.100.122/offA';
 
     try {
-      await Future.wait([http.get(Uri.parse(url)), http.get(Uri.parse(url1))]);
+      await http.get(Uri.parse(url));
     } catch (e) {
       print('Failed to toggle LED: $e');
     }
   }
 
   // kotak utama
-  // Future<void> _toggleOffLED3() async {
-  //   String url = 'http://192.168.100.122/offA';
+  Future<void> _toggleOffLED3() async {
+    String url = 'http://192.168.100.122/onA';
 
-  //   try {
-  //     await http.get(Uri.parse(url));
-  //   } catch (e) {
-  //     print('Failed to toggle LED: $e');
-  //   }
-  // }
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
+  }
 
   // untuk sensor 2
   Future<void> _toggleOnLED2() async {
-    String url = 'http://192.168.100.121/ON';
-    String url1 = 'http://192.168.100.122/onB';
+    String url = 'http://192.168.100.121/onA';
 
     try {
-      await Future.wait([http.get(Uri.parse(url)), http.get(Uri.parse(url1))]);
+      await http.get(Uri.parse(url));
     } catch (e) {
       print('Failed to toggle LED: $e');
     }
   }
-
-  // untuk kotak utama
-  // Future<void> _toggleOnLED4() async {
-  //   String url = 'http://192.168.100.122/onB';
-
-  //   try {
-  //     await http.get(Uri.parse(url));
-  //   } catch (e) {
-  //     print('Failed to toggle LED: $e');
-  //   }
-  // }
 
   // untuk sensor 2
   Future<void> _toggleOffLED2() async {
-    String url = 'http://192.168.100.121/OFF';
-    String url1 = 'http://192.168.100.121/offB';
+    String url = 'http://192.168.100.121/offA';
 
     try {
-      await Future.wait([http.get(Uri.parse(url)), http.get(Uri.parse(url1))]);
-      ;
+      await http.get(Uri.parse(url));
     } catch (e) {
       print('Failed to toggle LED: $e');
     }
   }
 
   // untuk kotak utama
-  // Future<void> _toggleOffLED4() async {
-  //   String url = 'http://192.168.100.122/offB';
+  Future<void> _toggleOnLED4() async {
+    String url = 'http://192.168.100.122/offB';
 
-  //   try {
-  //     await http.get(Uri.parse(url));
-  //   } catch (e) {
-  //     print('Failed to toggle LED: $e');
-  //   }
-  // }
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
+  }
+
+  // untuk kotak utama
+  Future<void> _toggleOffLED4() async {
+    String url = 'http://192.168.100.122/onB';
+
+    try {
+      await http.get(Uri.parse(url));
+    } catch (e) {
+      print('Failed to toggle LED: $e');
+    }
+  }
 
   //update 06/06/23
   void _changeStopwatchStatus(bool status) {
@@ -205,13 +200,15 @@ class _HomeState extends State<Home> {
     if (_randomProgress) {
       _randomProgress = false;
       if (randomNumber % 2 == 0) {
-        // _toggleOffLED1();
+        _toggleOnLED3();
+        _toggleOffLED2();
         _toggleOnLED1();
-        // _toggleOffLED3();
+        _toggleOffLED4();
       } else {
-        // _toggleOffLED();
+        _toggleOffLED1();
         _toggleOnLED2();
-        // _toggleOnLED4();
+        _toggleOffLED3();
+        _toggleOnLED4();
       }
       _setAutoModeStatus(false);
       return _autoMode();
@@ -372,7 +369,7 @@ class _HomeState extends State<Home> {
                           ),
                           onPressed: () {
                             _toggleOffLED1();
-                            // _toggleOffLED3();
+                            _toggleOffLED3();
                           },
                           child: Text(
                             'Off',
@@ -405,7 +402,7 @@ class _HomeState extends State<Home> {
                           ),
                           onPressed: () {
                             _toggleOnLED1();
-                            // _toggleOnLED3();
+                            _toggleOnLED3();
                           },
                           child: Text(
                             'On',
@@ -450,7 +447,7 @@ class _HomeState extends State<Home> {
                           ),
                           onPressed: () {
                             _toggleOffLED2();
-                            // _toggleOffLED4();
+                            _toggleOffLED4();
                           },
                           child: Text(
                             'Off',
@@ -483,7 +480,7 @@ class _HomeState extends State<Home> {
                           ),
                           onPressed: () {
                             _toggleOnLED2();
-                            // _toggleOnLED4();
+                            _toggleOnLED4();
                           },
                           child: Text(
                             'On',
@@ -547,11 +544,11 @@ class _HomeState extends State<Home> {
                   height: 16,
                 ),
                 Text(
-                  'Random Interval (Seconds): $_timeInterval',
+                  'Auto Mode Interval (Seconds): $_timeInterval',
                   style: TextStyle(
+                    color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white,
                   ),
                 ),
                 Row(
@@ -560,15 +557,9 @@ class _HomeState extends State<Home> {
                       child: RadioListTile(
                         title: Text(
                           '2s',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         value: 2,
-                        fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.white,
-                        ),
                         groupValue: _timeInterval,
                         onChanged: (int? value) {
                           setState(() {
@@ -581,15 +572,9 @@ class _HomeState extends State<Home> {
                       child: RadioListTile(
                         title: Text(
                           '3s',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         value: 3,
-                        fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.white,
-                        ),
                         groupValue: _timeInterval,
                         onChanged: (int? value) {
                           setState(() {
@@ -602,15 +587,9 @@ class _HomeState extends State<Home> {
                       child: RadioListTile(
                         title: Text(
                           '5s',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         value: 5,
-                        fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.white,
-                        ),
                         groupValue: _timeInterval,
                         onChanged: (int? value) {
                           setState(() {
@@ -620,9 +599,6 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ],
-                ),
-                SizedBox(
-                  height: 16,
                 ),
                 Text(
                   'Stopwatch Settings',
